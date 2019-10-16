@@ -20,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/MICSTI/keycloak-oauth-code-flow-demo/issues"
   },
-  "homepage": "https://github.com/MICSTI/keycloak-oauth-code-flow-demo#readme"
+  "homepage": "https://github.com/MICSTI/keycloak-oauth-code-flow-demo#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jwt-simple": "^0.5.6",
+    "request": "^2.88.0"
+  }
 }
