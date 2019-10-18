@@ -11,7 +11,8 @@ const config = {
     allowSelfSignedCerts: process.env.ALLOW_SELF_SIGNED_CERTS
   },
   oauth: {
-    redirectPath: process.env.OAUTH_REDIRECT_PATH
+    redirectPath: process.env.OAUTH_REDIRECT_PATH,
+    redirectUri: process.env.OAUTH_REDIRECT_URI
   },
   keycloak: {
     baseUrl: process.env.KEYCLOAK_BASE_URL,
@@ -30,6 +31,39 @@ const logoutEndpoint = `${baseUrl}/auth/realms/${realm}/protocol/openid-connect/
 const app = express();
 app.get(config.oauth.redirectPath, (req, res) => {
   console.log(`received callback`, req.query);
+
+  const { code } = req.query;
+
+  const formData = {
+    grant_type: "authorization_code",
+    client_id: config.keycloak.clientId,
+    redirect_uri: config.oauth.redirectUri,
+    scope: "openid profile User",
+    code
+  };
+
+  const requestConfig = {
+    url: tokenEndpoint,
+    form: formData,
+    agentOptions: {}
+  };
+
+  if (config.app.allowSelfSignedCerts === "yes") {
+    requestConfig.agentOptions["rejectUnauthorized"] = false;
+  }
+
+  request.post(requestConfig, (err, response, body) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    const data = JSON.parse(body);
+
+    console.log("got data", data);
+
+    res.status(200).json(data);
+  });
 });
 
 const port = config.app.port;
