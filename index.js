@@ -8,7 +8,8 @@ require("dotenv").config();
 const config = {
   app: {
     port: process.env.APP_PORT,
-    allowSelfSignedCerts: process.env.ALLOW_SELF_SIGNED_CERTS
+    allowSelfSignedCerts: process.env.ALLOW_SELF_SIGNED_CERTS,
+    corsOrigin = process.env.CORS_ORIGIN
   },
   oauth: {
     redirectPath: process.env.OAUTH_REDIRECT_PATH,
@@ -29,6 +30,22 @@ const userInfoEndpoint = `${baseUrl}/auth/realms/${realm}/protocol/openid-connec
 const logoutEndpoint = `${baseUrl}/auth/realms/${realm}/protocol/openid-connect/logout`;
 
 const app = express();
+
+// allow CORS from specified resources
+if (config.app.corsOrigin) {
+  app.use((req, res, next) => {
+    res.header(
+      "Access-Control-Allow-Origin",
+      config.app.corsOrigin
+    );
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  });
+}
+
 app.get(config.oauth.redirectPath, (req, res) => {
   console.log(`received callback`, req.query);
 
