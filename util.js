@@ -1,4 +1,5 @@
 const jwt = require("jwt-simple");
+const request = require("request");
 
 const getDecodedToken = encoded => jwt.decode(encoded, null, true);
 

@@ -28,8 +28,31 @@ const config = {
 const { baseUrl, realm, clientId } = config.keycloak;
 
 const tokenEndpoint = `${baseUrl}/realms/${realm}/protocol/openid-connect/token`;
-const userInfoEndpoint = `${baseUrl}/auth/realms/${realm}/protocol/openid-connect/userinfo`;
-const logoutEndpoint = `${baseUrl}/auth/realms/${realm}/protocol/openid-connect/logout`;
+const userInfoEndpoint = `${baseUrl}/realms/${realm}/protocol/openid-connect/userinfo`;
+
+const fetchUserInfo = accessToken => {
+  return new Promise((resolve, reject) => {
+    const opts = {
+      url: userInfoEndpoint,
+      agentOptions: {},
+      headers: {
+        Authorization: "Bearer " + accessToken
+      }
+    };
+
+    if (config.app.allowSelfSignedCerts === "yes") {
+      opts.agentOptions["rejectUnauthorized"] = false;
+    }
+
+    request.get(opts, (err, res, body) => {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(body);
+    });
+  });
+};
 
 const app = express();
 
@@ -49,8 +72,6 @@ app.use("/public", express.static("public"));
 
 app.get(config.oauth.redirectPath, (req, res) => {
   if (req.query["ref"] === "estmk") {
-    console.log(`received ref callback`, req.query);
-
     const { code } = req.query;
 
     const formData = {
@@ -85,18 +106,28 @@ app.get(config.oauth.redirectPath, (req, res) => {
           return res.status(500).send(err);
         }
 
-        const renderedTemplate = whiskers.render(fileData, {
-          raw: util.getPrettyString(data),
-          accessToken:
-            util.getDecodedPrettyString(data.access_token) ||
-            "No access token received",
-          refreshToken:
-            util.getDecodedPrettyString(data.refresh_token) ||
-            "No refresh token received",
-          idToken:
-            util.getDecodedPrettyString(data.id_token) || "No ID token received"
-        });
-        return res.status(200).send(renderedTemplate);
+        fetchUserInfo(data.access_token)
+          .then(userInfo => {
+            const renderedTemplate = whiskers.render(fileData, {
+              raw: util.getPrettyString(data),
+              accessToken:
+                util.getDecodedPrettyString(data.access_token) ||
+                "No access token received",
+              refreshToken:
+                util.getDecodedPrettyString(data.refresh_token) ||
+                "No refresh token received",
+              idToken:
+                util.getDecodedPrettyString(data.id_token) ||
+                "No ID token received",
+              userInfo: util.getPrettyString(JSON.parse(userInfo)),
+              userInfoUrl: userInfoEndpoint
+            });
+            return res.status(200).send(renderedTemplate);
+          })
+          .catch(err => {
+            console.error(err);
+            return res.status(500).send(err);
+          });
       });
     });
   } else {
