@@ -32,6 +32,18 @@
           <figure class="highlight">
             <pre><code>{raw}</code></pre>
           </figure>
+          <button
+            class="button is-success"
+            onclick="copyToClipboard('{encodedAccessToken}')"
+          >
+            Copy Access Token to clipboard
+          </button>
+          <button
+            class="button is-warning"
+            onclick="copyToClipboard('{encodedRefreshToken}')"
+          >
+            Copy Refresh Token to clipboard
+          </button>
         </section>
         <section class="tab-content">
           <figure class="highlight">

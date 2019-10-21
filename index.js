@@ -122,7 +122,9 @@ app.get(config.oauth.redirectPath, (req, res) => {
                 util.getDecodedPrettyString(data.id_token) ||
                 "No ID token received",
               userInfo: util.getPrettyString(JSON.parse(userInfo)),
-              userInfoUrl: userInfoEndpoint
+              userInfoUrl: userInfoEndpoint,
+              encodedAccessToken: data.access_token,
+              encodedRefreshToken: data.refresh_token
             });
             return res.status(200).send(renderedTemplate);
           })
