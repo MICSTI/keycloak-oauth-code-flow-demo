@@ -1,4 +1,4 @@
-# keycloak-oauth-code-flow-demo
+# Keycloak OAuth Code Flow Demo
 
 Demo application for demonstrating the exchange of an OAuth2 authorization code for actual tokens
 
