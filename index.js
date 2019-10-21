@@ -15,7 +15,8 @@ const config = {
   },
   oauth: {
     redirectPath: process.env.OAUTH_REDIRECT_PATH,
-    redirectUri: process.env.OAUTH_REDIRECT_URI
+    redirectUri: process.env.OAUTH_REDIRECT_URI,
+    redirectRef: process.env.OAUTH_REDIRECT_REF
   },
   keycloak: {
     baseUrl: process.env.KEYCLOAK_BASE_URL,
@@ -71,7 +72,8 @@ if (config.app.corsOrigin) {
 app.use("/public", express.static("public"));
 
 app.get(config.oauth.redirectPath, (req, res) => {
-  if (req.query["ref"] === "estmk") {
+  const redirectRef = config.oauth.redirectRef;
+  if (redirectRef && req.query["ref"] === redirectRef) {
     const { code } = req.query;
 
     const formData = {
