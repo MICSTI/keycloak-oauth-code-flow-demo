@@ -12,6 +12,7 @@ Demo application for demonstrating the exchange of an OAuth2 authorization code 
   - `CORS_ORIGIN` will set the `Access-Control-Allow-Origin` header to this value. Set this value to the origin which sends you the authorization code.
   - `OAUTH_REDIRECT_PATH` sets the path the app will listen on for receiving that OAuth callback. You can set this to whatever you wish, common settings are `/oauth/redirect` or `oauth/callback`. Please note that this value must be included in the list of allowed redirect URIs in your Keycloak client configuration.
   - `OAUTH_REDIRECT_URI` sets the redirect URI property for the request that exchanges the authorization code for the tokens. Must be the same as in the original authorization request.
+  - `OAUTH_REDIRECT_REF` sets the reference that needs to be present in the redirect response to know when to fetch the tokens.
   - `KEYCLOAK_BASE_URL` sets the base URL for requests against Keycloak
   - `KEYCLOAK_REALM` defines the name of the realm for which the tokens should be requested
   - `KEYCLOAK_CLIENT_ID` sets the ID of the client for which the tokens should be requested
