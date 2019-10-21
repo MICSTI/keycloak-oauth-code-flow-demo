@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>OAuth Demo App</title>
+    <meta name="description" content="OAuth Demo App" />
+    <meta name="author" content="Michael Stifter" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="../public/bulma.min.css" />
+    <link rel="stylesheet" href="../public/styles.css" />
+  </head>
+
+  <body>
+    <h1 class="title has-text-centered has-text-info">OAuth Demo Client</h1>
+
+    <div id="tabs-with-content">
+      <div class="tabs is-fullwidth">
+        <ul>
+          <li><a>Raw response</a></li>
+          <li><a>ID Token</a></li>
+          <li><a>Access Token</a></li>
+          <li><a>Refresh Token</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <section class="tab-content">
+          <figure class="highlight">
+            <pre><code>{raw}</code></pre>
+          </figure>
+        </section>
+        <section class="tab-content">
+          <figure class="highlight">
+            <pre><code>{idToken}</code></pre>
+          </figure>
+        </section>
+        <section class="tab-content">
+          <figure class="highlight">
+            <pre><code>{accessToken}</code></pre>
+          </figure>
+        </section>
+        <section class="tab-content">
+          <figure class="highlight">
+            <pre><code>{refreshToken}</code></pre>
+          </figure>
+        </section>
+      </div>
+    </div>
+
+    <script src="../public/scripts.js"></script>
+  </body>
+</html>
