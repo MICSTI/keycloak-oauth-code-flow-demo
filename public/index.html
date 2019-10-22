@@ -54,11 +54,23 @@
           <figure class="highlight">
             <pre><code>{accessToken}</code></pre>
           </figure>
+          <button
+            class="button is-success"
+            onclick="copyToClipboard('{encodedAccessToken}')"
+          >
+            Copy token to clipboard
+          </button>
         </section>
         <section class="tab-content">
           <figure class="highlight">
             <pre><code>{refreshToken}</code></pre>
           </figure>
+          <button
+            class="button is-warning"
+            onclick="copyToClipboard('{encodedRefreshToken}')"
+          >
+            Copy token to clipboard
+          </button>
         </section>
         <section class="tab-content">
           <figure class="highlight">
