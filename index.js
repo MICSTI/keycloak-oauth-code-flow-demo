@@ -73,7 +73,7 @@ app.use("/public", express.static("public"));
 
 app.get(config.oauth.redirectPath, (req, res) => {
   const redirectRef = config.oauth.redirectRef;
-  if (redirectRef && req.query["ref"] === redirectRef) {
+  if (!redirectRef || (redirectRef && req.query["ref"] === redirectRef)) {
     const { code } = req.query;
 
     const formData = {
