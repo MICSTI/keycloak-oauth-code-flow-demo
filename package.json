@@ -24,7 +24,7 @@
   "homepage": "https://github.com/MICSTI/keycloak-oauth-code-flow-demo#readme",
   "dependencies": {
     "dotenv": "8.2.0",
-    "express": "4.17.1",
+    "express": "4.17.3",
     "jwt-simple": "0.5.6",
     "request": "2.88.0",
     "whiskers": "0.4.0"
